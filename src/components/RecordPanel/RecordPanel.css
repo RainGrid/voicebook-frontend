@@ -23,6 +23,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  gap: 40px;
 }
 
 .record-panel-button {
@@ -39,6 +40,7 @@
 
   padding: 8px;
 
+  background: transparent;
   border: 2px solid #f94301;
   border-radius: 50%;
 }
@@ -61,6 +63,24 @@
   transition: background 0.3s ease;
 }
 
-.record-panel-button:hover::after {
+.record-panel-button--active::after {
   background: transparent;
+}
+
+.record-panel-button-forward,
+.record-panel-button-backward {
+  width: 64px;
+  height: 64px;
+
+  background: #2c2c2e;
+  border-radius: 50%;
+}
+
+.record-panel-button-forward--disabled,
+.record-panel-button-backward--disabled {
+  opacity: 0.2;
+}
+
+.record-panel-button-forward {
+  transform: rotate(180deg);
 }
