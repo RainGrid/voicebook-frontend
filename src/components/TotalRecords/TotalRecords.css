@@ -1,0 +1,11 @@
+.total-records {
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 100%;
+  letter-spacing: 4%;
+  text-align: center;
+
+  color: #d9d9d9;
+
+  opacity: 0.4;
+}

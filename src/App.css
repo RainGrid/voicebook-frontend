@@ -1,0 +1,60 @@
+.app {
+  height: 100vh;
+  height: 100svh;
+  min-width: 100vw;
+
+  padding-top: 16px;
+
+  display: flex;
+  flex-direction: column;
+
+  color: #ffffff;
+  font-family: 'SF Pro Display', system-ui, Avenir, Helvetica, Arial, sans-serif;
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 1.5;
+
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+
+  background-color: #000000;
+}
+
+.main {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  flex-grow: 1;
+
+  min-height: 0;
+  height: 100%;
+
+  padding: 0 16px 112px;
+}
+
+.icon-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+
+  width: 48px;
+  height: 48px;
+
+  border-radius: 50%;
+
+  background: #1a1a1cb2;
+  backdrop-filter: blur(81.54845428466797px);
+
+  cursor: pointer;
+}
+
+.icon-button img {
+  display: block;
+
+  flex-shrink: 0;
+
+  width: 24px;
+  height: 24px;
+}

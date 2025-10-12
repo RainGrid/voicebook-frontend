@@ -1,0 +1,60 @@
+.top-panel {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+
+  padding: 0 16px 20px;
+}
+
+.top-panel-main {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.top-panel-title {
+  flex-grow: 1;
+
+  font-size: 17px;
+  font-weight: 600;
+  line-height: 22px;
+  letter-spacing: -0.41px;
+  text-align: center;
+}
+
+.top-panel-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+
+  margin: 0 -16px;
+  padding: 0 16px;
+
+  overflow: auto;
+}
+
+.tags {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.tag {
+  padding: 12px 16px;
+
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 100%;
+  letter-spacing: 4%;
+  color: #d9d9d9;
+
+  background: #1a1a1cb2;
+  border-radius: 26px;
+
+  cursor: pointer;
+}
+
+.tag span {
+  opacity: 0.4;
+}
