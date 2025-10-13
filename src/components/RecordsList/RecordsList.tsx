@@ -1,6 +1,7 @@
 import { useAppContext } from '../../context/app.context';
+import { formatTime } from '../../utils';
 import './RecordsList.css';
-import { formatDate, formatTime } from './utils';
+import { formatDate } from './utils';
 
 const RecordsList = () => {
   const { records } = useAppContext();

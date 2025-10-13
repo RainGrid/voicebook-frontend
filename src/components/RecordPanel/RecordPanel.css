@@ -6,6 +6,7 @@
 
   display: flex;
   flex-direction: column;
+  align-items: center;
   gap: 20px;
 
   padding: 16px;
@@ -17,6 +18,79 @@
   border-top-right-radius: 13px;
 
   z-index: 1;
+}
+
+.record-panel-indicator-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.record-panel-indicator {
+  width: 74px;
+  height: 5px;
+
+  background: #d1d1d1;
+  opacity: 0.3;
+  border-radius: 100px;
+}
+
+.record-panel-title {
+  font-size: 14px;
+  line-height: 100%;
+  font-weight: 500;
+  letter-spacing: 4%;
+  color: #d9d9d9;
+
+  opacity: 0.4;
+}
+
+.record-panel-timer-wrapper {
+  position: relative;
+}
+
+.record-panel-timer-indicator {
+  position: absolute;
+  top: 50%;
+  left: -31px;
+  width: 20px;
+  height: 20px;
+
+  transform: translateY(-50%);
+
+  background: #d1d1d10a;
+  border-radius: 50%;
+}
+
+.record-panel-timer-indicator--active {
+  background: #f94301;
+  border: 1.5px solid #f943011a;
+}
+
+.record-panel-timer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  min-width: 190px;
+
+  padding-bottom: 8px;
+
+  font-size: 56px;
+  font-weight: 200;
+  line-height: 48px;
+  letter-spacing: 0%;
+  text-align: center;
+}
+
+.record-panel-timer-digit {
+  opacity: 0.3;
+
+  transition: opacity 0.3s ease;
+}
+
+.record-panel-timer-digit--active {
+  opacity: 1;
 }
 
 .record-panel-buttons {
