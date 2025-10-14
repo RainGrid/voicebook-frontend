@@ -1,6 +1,6 @@
 import clsx from 'clsx';
 import { format } from 'date-fns';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import fastForwardIcon from '../../assets/icons/fast-forward.svg';
 import squareIcon from '../../assets/icons/square.svg';
 import { useAppContext } from '../../context/app.context';
@@ -9,6 +9,7 @@ import { getTimeParts } from './utils';
 
 const RecordPanel = () => {
   const [, forceUpdate] = useState({});
+  const audioChunksRef = useRef<Blob[]>([]);
 
   const {
     isRecording,
@@ -18,6 +19,8 @@ const RecordPanel = () => {
     handleAddRecord,
     setRecords,
     setStartTime,
+    mediaRecorder,
+    setMediaRecorder,
   } = useAppContext();
 
   const currentRecord = records[0];
@@ -25,8 +28,41 @@ const RecordPanel = () => {
 
   const { hours, minutes, seconds } = getTimeParts(currentRecordDuration);
 
-  const handleToggleRecord = () => {
-    if (!isRecording) {
+  const startAudioRecording = async () => {
+    try {
+      const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+      const recorder = new MediaRecorder(stream);
+
+      audioChunksRef.current = [];
+
+      recorder.ondataavailable = (event) => {
+        if (event.data.size > 0) {
+          audioChunksRef.current.push(event.data);
+        }
+      };
+
+      recorder.onstop = () => {
+        const audioBlob = new Blob(audioChunksRef.current, {
+          type: 'audio/wav',
+        });
+        const audioUrl = URL.createObjectURL(audioBlob);
+
+        setRecords((currentRecords) => {
+          const [first, ...rest] = currentRecords;
+          const updatedRecord = {
+            ...first,
+            audioBlob,
+            audioUrl,
+          };
+          return [updatedRecord, ...rest];
+        });
+
+        stream.getTracks().forEach((track) => track.stop());
+      };
+
+      setMediaRecorder(recorder);
+      recorder.start();
+
       setIsRecording(true);
       setStartTime(Date.now());
 
@@ -36,11 +72,26 @@ const RecordPanel = () => {
         duration: 0,
         createdAt: new Date().toISOString(),
       });
+    } catch (error) {
+      console.error('Error accessing microphone:', error);
+    }
+  };
 
+  const stopAudioRecording = () => {
+    if (mediaRecorder && mediaRecorder.state === 'recording') {
+      mediaRecorder.stop();
+    }
+  };
+
+  const handleToggleRecord = async () => {
+    if (!isRecording) {
+      await startAudioRecording();
       return;
     }
 
     setIsRecording(false);
+
+    stopAudioRecording();
 
     const [first, ...rest] = records;
     const newRecords = [

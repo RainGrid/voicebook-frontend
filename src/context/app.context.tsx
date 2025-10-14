@@ -6,6 +6,8 @@ export interface IRecord {
   title: string;
   duration: number;
   createdAt: string;
+  audioBlob?: Blob;
+  audioUrl?: string;
 }
 
 export interface IAppContext {
@@ -17,8 +19,13 @@ export interface IAppContext {
   setIsRecording: (recording: boolean) => void;
 
   records: IRecord[];
-  setRecords: (records: IRecord[]) => void;
+  setRecords: (
+    records: IRecord[] | ((prevRecords: IRecord[]) => IRecord[]),
+  ) => void;
   handleAddRecord: (record: IRecord) => void;
+
+  mediaRecorder: MediaRecorder | null;
+  setMediaRecorder: (recorder: MediaRecorder | null) => void;
 }
 
 export const AppContext = createContext<IAppContext>({
@@ -32,6 +39,9 @@ export const AppContext = createContext<IAppContext>({
   records: [],
   setRecords: () => {},
   handleAddRecord: () => {},
+
+  mediaRecorder: null,
+  setMediaRecorder: () => {},
 });
 
 export const useAppContext = () => {
@@ -42,11 +52,15 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
   const [isRecording, setIsRecording] = useState(false);
   const [isPaused, setIsPaused] = useState(false);
   const [startTime, setStartTime] = useState(0);
-  
+
   const [records, setRecords] = useState<IRecord[]>([]);
 
+  const [mediaRecorder, setMediaRecorder] = useState<MediaRecorder | null>(
+    null,
+  );
+
   const handleAddRecord = (record: IRecord) => {
-    setRecords([record, ...records]);
+    setRecords((prevRecords) => [record, ...prevRecords]);
   };
 
   return (
@@ -61,6 +75,9 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
         records,
         setRecords,
         handleAddRecord,
+
+        mediaRecorder,
+        setMediaRecorder,
       }}
     >
       {children}
