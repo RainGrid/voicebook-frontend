@@ -1,6 +1,20 @@
 /* eslint-disable react-refresh/only-export-components */
 import { createContext, useContext, useState } from 'react';
 
+export interface ITranscriptionWord {
+  word: string;
+  startTime: number;
+  endTime: number;
+  confidence: number;
+}
+
+export interface ITranscriptionSegment {
+  text: string;
+  startTime: number;
+  endTime: number;
+  words: ITranscriptionWord[];
+}
+
 export interface IRecord {
   id: string;
   title: string;
@@ -8,6 +22,7 @@ export interface IRecord {
   createdAt: string;
   audioBlob?: Blob;
   audioUrl?: string;
+  transcription?: ITranscriptionSegment[];
 }
 
 export interface IAppContext {
@@ -26,6 +41,17 @@ export interface IAppContext {
 
   mediaRecorder: MediaRecorder | null;
   setMediaRecorder: (recorder: MediaRecorder | null) => void;
+
+  speechRecognition: SpeechRecognition | null;
+  setSpeechRecognition: (recognition: SpeechRecognition | null) => void;
+  currentTranscription: ITranscriptionSegment[];
+  setCurrentTranscription: (
+    transcription:
+      | ITranscriptionSegment[]
+      | ((
+          prevTranscription: ITranscriptionSegment[],
+        ) => ITranscriptionSegment[]),
+  ) => void;
 }
 
 export const AppContext = createContext<IAppContext>({
@@ -42,6 +68,11 @@ export const AppContext = createContext<IAppContext>({
 
   mediaRecorder: null,
   setMediaRecorder: () => {},
+
+  speechRecognition: null,
+  setSpeechRecognition: () => {},
+  currentTranscription: [],
+  setCurrentTranscription: () => {},
 });
 
 export const useAppContext = () => {
@@ -58,6 +89,12 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
   const [mediaRecorder, setMediaRecorder] = useState<MediaRecorder | null>(
     null,
   );
+
+  const [speechRecognition, setSpeechRecognition] =
+    useState<SpeechRecognition | null>(null);
+  const [currentTranscription, setCurrentTranscription] = useState<
+    ITranscriptionSegment[]
+  >([]);
 
   const handleAddRecord = (record: IRecord) => {
     setRecords((prevRecords) => [record, ...prevRecords]);
@@ -78,6 +115,11 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
 
         mediaRecorder,
         setMediaRecorder,
+
+        speechRecognition,
+        setSpeechRecognition,
+        currentTranscription,
+        setCurrentTranscription,
       }}
     >
       {children}
