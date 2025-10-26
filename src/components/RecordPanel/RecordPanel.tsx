@@ -412,7 +412,38 @@ const RecordPanel = () => {
           </div>
         </>
       )}
-      <div className="record-panel-buttons">
+      <div
+        className={clsx('record-panel-buttons', {
+          'record-panel-buttons--active': isRecording,
+        })}
+      >
+        <div className="vinyl">
+          <div className="vinyl-divider"></div>
+          <div className="vinyl-divider vinyl-divider--right"></div>
+          {currentRecord && (
+            <>
+              <svg className="vinyl-circle" viewBox="0 0 100 100">
+                <path id="vinyl-circle" d="M 0,50 a 50,50 0 1,1 0,1 z" />
+                <text textAnchor="middle">
+                  <textPath xlinkHref="#vinyl-circle" startOffset="25%">
+                    {currentRecord.title}
+                  </textPath>
+                </text>
+              </svg>
+              <svg
+                className="vinyl-circle vinyl-circle--small"
+                viewBox="0 0 100 100"
+              >
+                <path id="vinyl-circle-small" d="M 0,50 a 50,50 0 1,1 0,1 z" />
+                <text textAnchor="middle">
+                  <textPath xlinkHref="#vinyl-circle-small" startOffset="25%">
+                    {format(currentRecord.createdAt, 'MMMM, d')}
+                  </textPath>
+                </text>
+              </svg>
+            </>
+          )}
+        </div>
         <button className="icon-button record-panel-button-backward record-panel-button-backward--disabled">
           <img src={fastForwardIcon} alt="Backward" />
         </button>

@@ -107,10 +107,22 @@
 }
 
 .record-panel-buttons {
+  position: relative;
+
   display: flex;
   align-items: center;
   justify-content: center;
   gap: 40px;
+
+  width: 100%;
+}
+
+.record-panel-buttons--active {
+  aspect-ratio: 1/1;
+}
+
+.record-panel-buttons--active .vinyl {
+  display: block;
 }
 
 .record-panel-button {
@@ -151,11 +163,13 @@
 }
 
 .record-panel-button--active::after {
-  background: transparent;
+  background: rgb(249, 67, 1, 0.1);
 }
 
 .record-panel-button-forward,
 .record-panel-button-backward {
+  position: relative;
+
   width: 64px;
   height: 64px;
 
@@ -166,6 +180,78 @@
 .record-panel-button-forward--disabled,
 .record-panel-button-backward--disabled {
   opacity: 0.2;
+}
+
+.vinyl {
+  display: none;
+
+  position: absolute;
+  inset: 0;
+
+  background: rgb(249, 67, 1, 0.04);
+  border: 1px solid #f94301;
+  border-radius: 50%;
+
+  animation: vinylRotate 5s linear infinite;
+
+  z-index: -1;
+}
+
+@keyframes vinylRotate {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.vinyl-divider {
+  position: absolute;
+  top: 50%;
+  left: 10px;
+
+  width: calc((100% - 80px - 40px) / 2);
+  height: 1px;
+
+  background-color: #f94301;
+
+  transform: translateY(-50%);
+}
+
+.vinyl-divider--right {
+  left: auto;
+  right: 10px;
+}
+
+.vinyl-circle {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+
+  width: 88%;
+  height: 88%;
+
+  font-size: 5px;
+  font-weight: 300;
+
+  fill: #f94301;
+
+  transform: translate(-50%, -50%);
+  overflow: visible;
+}
+
+.vinyl-circle path {
+  fill: none;
+}
+
+.vinyl-circle--small {
+  width: 59%;
+  height: 59%;
+
+  font-size: 7.5px;
+
+  transform: translate(-50%, -50%) rotate(180deg);
 }
 
 .record-panel-button-forward {
